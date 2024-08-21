@@ -1,0 +1,26 @@
+{"properties": [
+  {
+    "name": "voucher.service.url",
+    "type": "java.lang.String",
+    "description": "A description for 'voucher.service.url'"
+  },
+  {
+    "name": "voucher.service.apikey",
+    "type": "java.lang.String",
+    "description": "A description for 'voucher.service.apikey'"
+  }
+]} "description": "A description for 'voucher.service.url'"
+  },
+  {
+    "name": "voucher.service.apikey",
+    "type": "java.lang.String",
+    "description": "A description for 'voucher.service.apikey'"
+  }
+]} "description": "A description for 'voucher.service.url'"
+  },
+  {
+    "name": "voucher.service.apikey",
+    "type": "java.lang.String",
+    "description": "A description for 'voucher.service.apikey'"
+  }
+]}

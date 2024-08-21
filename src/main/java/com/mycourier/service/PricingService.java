@@ -10,6 +10,7 @@ import com.mycourier.api.model.ParcelPricingRequest;
 import com.mycourier.api.model.ParcelPricingResponse;
 import com.mycourier.api.model.PricingRule;
 import com.mycourier.api.model.RuleCondition;
+import com.mycourier.api.model.VoucherResponse;
 import com.mycourier.api.model.enums.DimensionType;
 import com.mycourier.api.model.enums.Operations;
 import com.mycourier.api.model.repository.RuleRepository;
@@ -24,8 +25,12 @@ public class PricingService {
 	public PricingService(RuleRepository ruleRepository) {
 		this.ruleRepository = ruleRepository;
 	}
-
+	
 	public ParcelPricingResponse getPrice(ParcelPricingRequest parcelRequest) {
+		return getPrice(parcelRequest, null);
+	}
+
+	public ParcelPricingResponse getPrice(ParcelPricingRequest parcelRequest, VoucherResponse voucherDetails) {
 
 		List<PricingRule> pricingRules = ruleRepository.findByOrderByRulePriorityAsc();
 
@@ -34,6 +39,11 @@ public class PricingService {
 		if (matchingRule.isPresent()) {
 			PricingRule rule = matchingRule.get();
 			Double cost = getCost(rule, parcelRequest);
+			
+			if (voucherDetails != null) {
+				cost -= voucherDetails.getDiscount();
+			}
+			
 			String costString = cost != null ? cost.toString() : PRICE_NOT_AVAILABLE;
 			ParcelPricingResponse price = ParcelPricingResponse.builder().message(rule.getRuleName()).totalCost(costString).build();
 			return price;

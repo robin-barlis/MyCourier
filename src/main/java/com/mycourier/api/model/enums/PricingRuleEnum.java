@@ -1,7 +1,4 @@
-package com.mycourier.api.model;
-
-import com.mycourier.api.model.enums.DimensionType;
-import com.mycourier.api.model.enums.Operations;
+package com.mycourier.api.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

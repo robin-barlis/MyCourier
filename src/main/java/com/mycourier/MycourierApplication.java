@@ -9,9 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.mycourier.api.model.PricingRule;
-import com.mycourier.api.model.PricingRuleEnum;
-import com.mycourier.api.model.RuleCondition;
+import com.mycourier.api.model.dto.PricingRule;
+import com.mycourier.api.model.dto.RuleCondition;
+import com.mycourier.api.model.enums.PricingRuleEnum;
 import com.mycourier.api.model.repository.RuleRepository;
 
 import jakarta.persistence.EntityManager;

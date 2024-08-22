@@ -1,6 +1,5 @@
 package com.mycourier.api.model;
 
-import io.micrometer.common.lang.NonNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +17,6 @@ public class ParcelPricingResponse {
 	
 	String totalCost;
 	
-	@NonNull 
 	String message;
 
 }

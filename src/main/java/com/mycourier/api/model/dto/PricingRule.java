@@ -1,4 +1,4 @@
-package com.mycourier.api.model;
+package com.mycourier.api.model.dto;
 
 import java.util.List;
 

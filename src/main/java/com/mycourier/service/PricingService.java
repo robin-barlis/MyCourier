@@ -8,17 +8,20 @@ import org.springframework.stereotype.Service;
 import com.mycourier.api.model.Dimension;
 import com.mycourier.api.model.ParcelPricingRequest;
 import com.mycourier.api.model.ParcelPricingResponse;
-import com.mycourier.api.model.PricingRule;
-import com.mycourier.api.model.RuleCondition;
 import com.mycourier.api.model.VoucherResponse;
+import com.mycourier.api.model.dto.PricingRule;
+import com.mycourier.api.model.dto.RuleCondition;
 import com.mycourier.api.model.enums.DimensionType;
 import com.mycourier.api.model.enums.Operations;
 import com.mycourier.api.model.repository.RuleRepository;
 
 @Service
 public class PricingService {
+	
+
 
 	private RuleRepository ruleRepository;
+	private VoucherService voucherService;
 	
 	private static final String PRICE_NOT_AVAILABLE = "N/A";
 
@@ -26,11 +29,12 @@ public class PricingService {
 		this.ruleRepository = ruleRepository;
 	}
 	
-	public ParcelPricingResponse getPrice(ParcelPricingRequest parcelRequest) {
-		return getPrice(parcelRequest, null);
-	}
+    public void setMissionService(VoucherService voucherService) {
+        this.voucherService = voucherService;
+    }
 
-	public ParcelPricingResponse getPrice(ParcelPricingRequest parcelRequest, VoucherResponse voucherDetails) {
+
+	public ParcelPricingResponse getPrice(ParcelPricingRequest parcelRequest) {
 
 		List<PricingRule> pricingRules = ruleRepository.findByOrderByRulePriorityAsc();
 
@@ -40,9 +44,12 @@ public class PricingService {
 			PricingRule rule = matchingRule.get();
 			Double cost = getCost(rule, parcelRequest);
 			
-			if (voucherDetails != null) {
-				cost -= voucherDetails.getDiscount();
-			}
+			//API not working
+//			VoucherResponse voucherDetails = voucherService.getVoucherDetails(parcelRequest.getVoucherCode());
+//			
+//			if (voucherDetails != null) {
+//				cost -= voucherDetails.getDiscount();
+//			}
 			
 			String costString = cost != null ? cost.toString() : PRICE_NOT_AVAILABLE;
 			ParcelPricingResponse price = ParcelPricingResponse.builder().message(rule.getRuleName()).totalCost(costString).build();
@@ -150,10 +157,8 @@ public class PricingService {
 		
 		DimensionType costDimensionBasis = DimensionType.valueOf(rule.getCostDimensionBasis());
 		if (DimensionType.VOLUME == costDimensionBasis) {
-
 			Double volume = getParcelVolume(parcelRequest.getParcelDimensions());
 			return rule.getCostMultiplier() * volume;
-			
 		}
 		
 		Double dimensionValue = getParcelDimension(parcelRequest.getParcelDimensions(), costDimensionBasis);
